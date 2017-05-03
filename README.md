@@ -20,6 +20,11 @@ Tetris is a game in which multicolored blocks fall from the top of the screen an
   * game.js: This file will keep track of all the logic for the game, including a player's current score and whether a game is over or still continuing.
 
 ## Wireframes
+  ##### Board
+  ![board]
+
+  #### Board with Model
+  ![board_with_model]
 
 ## Implementation Timeline
 ** Day 1 ** : Complete setup of entry file and webpack file. Write board structure and begin learning canvis.
@@ -44,3 +49,6 @@ Tetris is a game in which multicolored blocks fall from the top of the screen an
   1. Experience increasing difficulty due to increased speed of the blocks appearing
   2. Multiple levels
   3. High score across multiple players
+
+  [board_with_model]: ./wireframes/board_with_model.png
+  [board]: ./wireframes/tetris_board.png
