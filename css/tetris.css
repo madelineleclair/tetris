@@ -1,0 +1,19 @@
+html, body, canvas {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: content-box;
+  font: inherit;
+  text-align: inherit;
+}
+
+body {
+  width: 1000px;
+}
+
+.stage {
+  background: red;
+  /*width: 400px;
+  height: 400px;*/
+  margin: auto;
+}
