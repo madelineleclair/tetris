@@ -23,7 +23,7 @@ Tetris is a game in which multicolored blocks fall from the top of the screen an
   ##### Board
   ![board]
 
-  #### Board with Model
+  #### Board with Modal
   ![board_with_model]
 
 ## Implementation Timeline
@@ -50,5 +50,5 @@ Tetris is a game in which multicolored blocks fall from the top of the screen an
   2. Multiple levels
   3. High score across multiple players
 
-  [board_with_model]: ./wireframes/board_with_model.png
+  [board_with_model]: ./wireframes/board_with_modal.png
   [board]: ./wireframes/tetris_board.png
