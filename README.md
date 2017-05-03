@@ -9,7 +9,7 @@ Tetris is a game in which multicolored blocks fall from the top of the screen an
 ## Technologies and Libraries
   Tretris will be implemented using the following technologies:
   * JavaScript for game logic.
-  * Canvis to draw the pieces and board
+  * Canvas or easel.js to draw the pieces and board
   * Webpack to bundle everything together
 
 ## File Structure
@@ -27,10 +27,10 @@ Tetris is a game in which multicolored blocks fall from the top of the screen an
   ![board_with_model]
 
 ## Implementation Timeline
-** Day 1 ** : Complete setup of entry file and webpack file. Write board structure and begin learning canvis.
+** Day 1 ** : Complete setup of entry file and webpack file. Write board structure and begin learning canvas.
   - Have webpack up and running
   - Write logic for board, including checking if a row should be cleared, clearing rows, and adding pieces to row.
-  - Generate static pieces using canvis
+  - Generate static pieces using canvas
 
 ** Day 2 ** : Render board on screen and be able to control static pieces. Start setting up rotating piece logic.
   - Render a board and have static pieces appear on the board
