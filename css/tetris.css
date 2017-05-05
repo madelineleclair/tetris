@@ -9,6 +9,8 @@ html, body, canvas {
 
 body {
   width: 1000px;
+  display: flex;
+  justify-content: center;
 }
 
 .stage {
