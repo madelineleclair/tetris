@@ -3,11 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>Tetris</title>
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/fyodor" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="css/tetris.css">
     <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
     <script src="./bundle.js"></script>
   </head>
   <body>
-    <canvas id="canvas" class="stage" width="500px" height="580px"></canvas>
+    <h1>Tetris</h1>
+    <div class="game-container">
+      <canvas id="canvas" class="stage" width="400px" height="450px"></canvas>
+      <div>
+        <div class="start-button-container button-container">
+          <button>Start</button>
+        </div>
+        <div class="pause-button-container button-container">
+          <button>Pause</button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

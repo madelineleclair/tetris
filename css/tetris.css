@@ -1,21 +1,47 @@
-html, body, canvas {
+html, body, canvas, h1 {
   margin: 0;
   padding: 0;
   border: 0;
   box-sizing: content-box;
   font: inherit;
   text-align: inherit;
+  font-family: 'FyodorBold';
+  font-style: bold;
 }
 
 body {
-  width: 1000px;
+  /*width: 1000px;*/
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.stage {
+  /*margin: auto;*/
+}
+
+h1 {
+  text-align: center;
+  font-size: 50px;
+  margin: 40px 0 25px 0;
+}
+
+.game-container {
   display: flex;
   justify-content: center;
 }
 
-.stage {
-  background: red;
-  /*width: 400px;
-  height: 400px;*/
-  margin: auto;
+.button-container {
+    width: 130px;
+    background: red;
+    height: 65px;
+    border: 2px solid blue;
+    border-bottom: none;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.button-container:last-of-type {
+  border-bottom: 2px solid blue;
 }
