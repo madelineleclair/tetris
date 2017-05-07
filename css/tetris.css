@@ -1,4 +1,4 @@
-html, body, canvas, h1 {
+html, body, canvas, h1, button {
   margin: 0;
   padding: 0;
   border: 0;
@@ -7,6 +7,7 @@ html, body, canvas, h1 {
   text-align: inherit;
   font-family: 'FyodorBold';
   font-style: bold;
+  background: transparent;
 }
 
 body {
@@ -33,9 +34,9 @@ h1 {
 
 .button-container {
     width: 130px;
-    background: red;
+    /*background: red;*/
     height: 65px;
-    border: 2px solid blue;
+    border: 2px solid grey;
     border-bottom: none;
     margin-left: 10px;
     display: flex;
@@ -43,5 +44,14 @@ h1 {
 }
 
 .button-container:last-of-type {
-  border-bottom: 2px solid blue;
+  border-bottom: 2px solid grey;
+}
+
+.game-container button {
+  width: 100%;
+  text-align: center;
+}
+
+.game-container button:hover {
+  cursor: pointer;
 }
