@@ -1,4 +1,5 @@
 # Tetris
+[Live](http://madelineleclair.us/tetris/)
 
 Tetris is a JavaScript game based upon the classic puzzle game. It is written using JavaScript, HTML, CSS, and Easel.js. Users move and rotate blocks to fill up a row. Once a row is filled, it is removed from the game. If a user reaches the top, the game is over. To play, load the link to the website and click the start button. Pieces will automatically be generated.
 
