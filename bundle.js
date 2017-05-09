@@ -419,9 +419,7 @@ class Game {
   setAutoDrop() {
     if (this.continueGame) {
       this.autoDropId = setInterval(() => {
-        if (this.continueGame) {
           this.downLogic();
-        }
       }, 400);
     }
   }
@@ -437,9 +435,7 @@ class Game {
   }
 
   gameOver() {
-    // document.location.reload();
     clearInterval(this.autoDropId);
-    // // debugger
     document.removeEventListener("keydown", this.keyPressCallBack);
     this.currentPiece = null;
     this.board.grid = this.board.generateGrid();
