@@ -307,7 +307,7 @@ class Game {
     this.display = new Display (this.board, this.stage);
     this.pause = false;
     this.keyPressCallBack = (e) => { this.keyPressCheck(e); };
-    // this.gameEnded = false;
+    this.continueGame = true;
   }
 
   pageLoadActions() {
@@ -319,7 +319,7 @@ class Game {
   }
 
   startGame() {
-    this.gameEneded = false;
+    this.continueGame = true;
     this.UserKeyboardInteraction();
     this.newCurrentPiece();
     this.placePiece();
@@ -367,9 +367,11 @@ class Game {
         break;
       }
       case(40): {
+        if (this.continueGame) {
           clearInterval(this.autoDropId);
           this.downLogic();
           this.setAutoDrop();
+        }
           return;
       }
     }
@@ -415,9 +417,13 @@ class Game {
   }
 
   setAutoDrop() {
-    this.autoDropId = setInterval(() => {
-      this.downLogic();
-    }, 400);
+    if (this.continueGame) {
+      this.autoDropId = setInterval(() => {
+        if (this.continueGame) {
+          this.downLogic();
+        }
+      }, 400);
+    }
   }
 
   checkGameOver() {
@@ -437,6 +443,7 @@ class Game {
     document.removeEventListener("keydown", this.keyPressCallBack);
     this.currentPiece = null;
     this.board.grid = this.board.generateGrid();
+    this.stage.removeAllChildren();
     this.display.displayGrid();
   }
 
@@ -454,6 +461,7 @@ class Game {
       this.newCurrentPiece();
 
       if (this.checkGameOver()) {
+        this.continueGame = false;
         this.gameOver();
       } else {
         this.placePiece();
@@ -463,6 +471,7 @@ class Game {
   }
 
   renderBoard() {
+    this.stage.removeAllChildren();
     this.display.displayGrid();
   }
 
