@@ -151,21 +151,11 @@ class Board {
   }
 
   removePiece(position) {
-    // debugger
     const rowPosition = position[0];
     const spacePosition = position[1];
     this.grid[rowPosition][spacePosition] = null;
   }
 
-  // //watch the return on this, maybe returning false.
-  // rowFull(row) {
-  //   let filledSquares = this.countFilledSquares(rowIndex);
-  //   if (filledSquares === this.rowLength) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   checkForFullRows() {
     let rowsToDelete = [];
@@ -179,7 +169,6 @@ class Board {
       this.addRow();
     });
 
-    // this.addRow(rowsToDelete.length);
 
     if (rowsToDelete.length > 0) {
       return true;
@@ -197,20 +186,6 @@ class Board {
     return true;
   }
 
-  // countFilledSquares(rowIndex) {
-  //   let filledSquares = 0;
-  //   this.grid[rowIndex].forEach((square) => {
-  //     if (square !== null) {
-  //       filledSquares ++;
-  //     }
-  //   });
-  //   return filledSquares;
-  // }
-
-//there is no generateRow anymore
-  // addRow() {
-  //   this.generateRow();
-  // }
 
   clearRow(rowIndex) {
     this.grid.splice([rowIndex], 1);
@@ -227,16 +202,6 @@ class Board {
     }
   }
 
-  // addRow(numberNewRows) {
-  //   let grid = new Array();
-  //   for (let i = 0; i < numberNewRows; i++) {
-  //     grid[i] = new Array();
-  //     for ( let j = 0; j < this.rowLength; j++) {
-  //       grid[i][j] = null;
-  //     }
-  //     this.grid = grid.concat(this.grid);
-  //   }
-  // }
 
   validRotation(currentPiece) {
     const currentPositions = currentPiece.currentPositions;
@@ -342,6 +307,7 @@ class Game {
     this.display = new Display (this.board, this.stage);
     this.pause = false;
     this.keyPressCallBack = (e) => { this.keyPressCheck(e); };
+    // this.gameEnded = false;
   }
 
   pageLoadActions() {
@@ -353,7 +319,9 @@ class Game {
   }
 
   startGame() {
+    this.gameEneded = false;
     this.UserKeyboardInteraction();
+    this.newCurrentPiece();
     this.placePiece();
     this.renderPiece();
     this.setAutoDrop();
@@ -399,10 +367,10 @@ class Game {
         break;
       }
       case(40): {
-        clearInterval(this.autoDropId);
-        this.downLogic();
-        this.setAutoDrop();
-        return;
+          clearInterval(this.autoDropId);
+          this.downLogic();
+          this.setAutoDrop();
+          return;
       }
     }
     this.placePiece();
@@ -427,8 +395,12 @@ class Game {
     return pieces[key];
   }
 
+  newCurrentPiece() {
+    this.currentPiece = this.getPiece();
+  }
+
   placePiece() {
-    this.currentPiece = this.currentPiece || this.getPiece();
+    // this.currentPiece = this.currentPiece || this.getPiece();
     this.currentPiece.currentPositions.forEach((space) => {
       this.board.placePiece(space, this.currentPiece.symbol);
     });
@@ -448,19 +420,46 @@ class Game {
     }, 400);
   }
 
-  downLogic() {
+  checkGameOver() {
+    for(let i = 0; i < this.currentPiece.currentPositions.length; i++) {
+      const piecePosition = this.currentPiece.currentPositions[i];
+      if (this.board.grid[piecePosition[0]][piecePosition[1]] !== null) {
+        return true;
+      }
+    }
+    return false;
+  }
 
+  gameOver() {
+    // document.location.reload();
+    clearInterval(this.autoDropId);
+    // // debugger
+    document.removeEventListener("keydown", this.keyPressCallBack);
+    this.currentPiece = null;
+    this.board.grid = this.board.generateGrid();
+    this.display.displayGrid();
+  }
+
+  downLogic() {
     if (this.board.validDownMove(this.currentPiece.currentPositions)) {
       this.removePiece();
       this.currentPiece.moveDown();
+      this.placePiece();
+      this.renderPiece();
     } else {
       this.currentPiece = null;
       if (this.board.checkForFullRows()) {
         this.renderBoard();
       }
+      this.newCurrentPiece();
+
+      if (this.checkGameOver()) {
+        this.gameOver();
+      } else {
+        this.placePiece();
+        this.renderPiece();
+      }
     }
-    this.placePiece();
-    this.renderPiece();
   }
 
   renderBoard() {
