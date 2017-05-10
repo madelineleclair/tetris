@@ -292,6 +292,7 @@ module.exports = Board;
 
 const Display = __webpack_require__(3);
 const Board = __webpack_require__(1);
+const NextPieceBoard = __webpack_require__(12);
 const StaticPieces = __webpack_require__(10);
 const LinePiece = __webpack_require__(7);
 const LeftLPiece = __webpack_require__(5);
@@ -303,8 +304,10 @@ const TPiece = __webpack_require__(11);
 class Game {
   constructor() {
     this.board = new Board ();
-    this.board_stage = new createjs.Stage("canvas");
-    this.display = new Display (this.board, this.board_stage);
+    this.nextPieceBoard = new NextPieceBoard ();
+    this.boardStage = new createjs.Stage("canvas");
+    this.nextPieceStage = new createjs.Stage("next-piece-canvas");
+    this.display = new Display (this.board, this.boardStage, this.nextPieceBoard, this.nextPieceStage);
     this.pause = false;
     this.keyPressCallBack = (e) => { this.keyPressCheck(e); };
     this.continueGame = true;
@@ -312,6 +315,7 @@ class Game {
 
   pageLoadActions() {
     this.renderBoard();
+    this.display.displayGrid("nextPieceBoard");
     const startButton = document.getElementById("start-button");
     const pauseButton = document.getElementById("pause-button");
     startButton.addEventListener("click", (e) => this.startGame());
@@ -325,6 +329,10 @@ class Game {
     this.placePiece();
     this.renderPiece();
     this.setAutoDrop();
+    this.nextPieceBoard.nextPiece = this.generateRandomNumber();
+    this.nextPieceBoard.setPiece();
+    this.nextPieceStage.update();
+    this.display.displayGrid("nextPieceStage");
   }
 
   pauseGame() {
@@ -380,22 +388,40 @@ class Game {
   }
 
   generateRandomNumber() {
-    return Math.floor(Math.random() * 6);
+    return Math.floor(Math.random() * (7 - 1 + 1)) + 1;
+    // return 0;
   }
 
   getPiece() {
     const pieces = {
-      0: new StaticPieces(),
-      1: new LinePiece(),
-      2: new LeftLPiece(),
-      3: new RightLPiece(),
-      4: new LeftZPiece(),
-      5: new RightZPiece(),
-      6: new TPiece(),
+      1: new StaticPieces(),
+      2: new LinePiece(),
+      3: new LeftLPiece(),
+      4: new RightLPiece(),
+      5: new LeftZPiece(),
+      6: new RightZPiece(),
+      7: new TPiece(),
     };
-    const key = this.generateRandomNumber();
+    // debugger
+    const key = this.nextPieceBoard.nextPiece || this.generateRandomNumber();
     return pieces[key];
   }
+
+
+  // getPiece() {
+  //   const pieces = {
+  //     0: new StaticPieces(),
+  //     1: new LinePiece(),
+  //     2: new LeftLPiece(),
+  //     3: new RightLPiece(),
+  //     4: new LeftZPiece(),
+  //     5: new RightZPiece(),
+  //     6: new TPiece(),
+  //   };
+  //   debugger
+  //   const key = this.nextPieceBoard.nextPiece || this.generateRandomNumber();
+  //   return pieces[key];
+  // }
 
   newCurrentPiece() {
     this.currentPiece = this.getPiece();
@@ -413,7 +439,8 @@ class Game {
       this.display.removePiece(space);
       this.board.removePiece(space);
     });
-    this.board_stage.update();
+    this.boardStage.update();
+    // this.display.displayGrid("boardStage");
   }
 
   setAutoDrop() {
@@ -439,22 +466,34 @@ class Game {
     document.removeEventListener("keydown", this.keyPressCallBack);
     this.currentPiece = null;
     this.board.grid = this.board.generateGrid();
-    this.board_stage.removeAllChildren();
-    this.display.displayGrid();
+    this.boardStage.removeAllChildren();
+    this.display.displayGrid("boardStage");
+    this.nextPieceBoard.resetGrid();
+    this.nextPieceStage.removeAllChildren();
+    this.display.displayGrid("nextPieceStage");
   }
 
   downLogic() {
+    // debugger
     if (this.board.validDownMove(this.currentPiece.currentPositions)) {
       this.removePiece();
       this.currentPiece.moveDown();
       this.placePiece();
       this.renderPiece();
+      // this.nextPiece = this.generateRandomNumber();
+      // this.nextPieceBoard.update();
     } else {
       this.currentPiece = null;
       if (this.board.checkForFullRows()) {
         this.renderBoard();
       }
+
       this.newCurrentPiece();
+      this.nextPieceBoard.nextPiece = this.generateRandomNumber();
+      this.nextPieceBoard.update();
+      this.nextPieceStage.update();
+      this.nextPieceStage.removeAllChildren();
+      this.display.displayGrid("nextPieceStage");
 
       if (this.checkGameOver()) {
         this.continueGame = false;
@@ -467,15 +506,15 @@ class Game {
   }
 
   renderBoard() {
-    this.board_stage.removeAllChildren();
-    this.display.displayGrid();
+    this.boardStage.removeAllChildren();
+    this.display.displayGrid("boardStage");
   }
 
   renderPiece() {
     this.currentPiece.currentPositions.forEach((space) => {
       this.display.displayPiece(space);
     });
-    this.board_stage.update();
+    this.boardStage.update();
   }
 }
 
@@ -489,46 +528,54 @@ module.exports = Game;
 const Board = __webpack_require__(1);
 
 class Display {
-  constructor(board, stage) {
+  constructor(board, boardStage, nextPieceBoard, nextPieceStage) {
     this.board = board;
-    this.stage = stage;
+    this.boardStage = boardStage;
+    this.nextPieceBoard = nextPieceBoard;
+    this.nextPieceStage = nextPieceStage;
     this.squareSize = 25;
   }
 
-  displayGrid() {
-    const numberRows = this.board.numberRows;
-    const rowLength = this.board.rowLength;
+  displayGrid(generationType) {
+    // debugger
+    const board = generationType === "boardStage" ? this.board : this.nextPieceBoard;
+    // const numberRows = this.board.numberRows;
+    // const rowLength = this.board.rowLength;
+    const numberRows = board.numberRows;
+    const rowLength = board.rowLength;
     let yPosition = 0;
     for (let rowNumber = 0; rowNumber < numberRows; rowNumber++) {
-      this.displayRow(rowNumber, rowLength, yPosition);
+      this.displayRow(rowNumber, rowLength, yPosition, generationType);
       yPosition += this.squareSize;
     }
   }
 
-  displayRow(rowNumber, rowLength, yPosition) {
+  displayRow(rowNumber, rowLength, yPosition, generationType) {
+    // debugger
+    const stage = generationType === "boardStage" ? this.boardStage : this.nextPieceStage;
     let xPosition = 0;
     for (let spaceNumber = 0; spaceNumber < rowLength; spaceNumber++) {
-      var color = this.getColor([rowNumber, spaceNumber]);
+      var color = this.getColor([rowNumber, spaceNumber], generationType);
       var rectangle = new createjs.Shape();
       rectangle.graphics.beginStroke('#000');
       rectangle.graphics.beginFill(color).drawRect(0, 0, this.squareSize, this.squareSize);
       rectangle.x = xPosition;
       rectangle.y = yPosition;
-      this.stage.addChild(rectangle);
+      stage.addChild(rectangle);
       xPosition += this.squareSize;
     }
-    this.stage.update();
+    stage.update();
   }
 
 // the x position is the index inside the inner array and the y positioni is the row number
   displayPiece(position) {
-    var color = this.getColor([position[0], position[1]]);
+    var color = this.getColor([position[0], position[1]], "boardStage");
     var rectangle = new createjs.Shape();
     rectangle.graphics.beginStroke('#000');
     rectangle.graphics.beginFill(color).drawRect(0, 0, this.squareSize, this.squareSize);
     rectangle.x = position[1] * this.squareSize;
     rectangle.y = position[0] * this.squareSize;
-    this.stage.addChild(rectangle);
+    this.boardStage.addChild(rectangle);
   }
 
 // the x position is the index inside the inner array and the y positioni is the row number
@@ -537,13 +584,15 @@ class Display {
     rectangle.graphics.beginFill("Black").drawRect(0, 0, this.squareSize, this.squareSize);
     rectangle.x = position[1] * this.squareSize;
     rectangle.y = position[0] * this.squareSize;
-    this.stage.addChild(rectangle);
+    this.boardStage.addChild(rectangle);
   }
 
-  getColor(position) {
+  getColor(position, generationType) {
+    // debugger
+    const board = generationType === "boardStage" ? this.board : this.nextPieceBoard;
     const row = position[0];
     const space = position[1];
-    switch(this.board.grid[row][space]) {
+    switch(board.grid[row][space]) {
       case("B"): {
         return "Blue";
       }
@@ -721,7 +770,7 @@ class StaticPieces extends Piece {
   constructor() {
     super({
       symbol: "B",
-      defaultPosition: [[0, 8], [0,9], [1,8], [1,9]],
+      defaultPosition: [[0, 7], [0,8], [1,7], [1,8]],
     });
     // this.symbol = "B";
     // this.defaultPosition = {
@@ -765,7 +814,7 @@ class StaticPieces extends Piece {
   // }
 
   rotatePiece() {
-    
+
   }
 }
 
@@ -788,6 +837,62 @@ class TPiece extends Piece {
 }
 
 module.exports = TPiece;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+class NextPieceBoard {
+  constructor() {
+    this.grid = [[null, null, null, null],[null, null, null, null]];
+    this.numberRows = this.grid.length;
+    this.rowLength = this.grid[0].length;
+    this.nextPiece = null;
+    this.pieces = {
+      1: { symbol: "B",
+           positions: [[0, 0], [0,1], [1,0], [1,1]]
+         },
+      2: { symbol: "S",
+           positions: [[0,0], [0,1], [0,2], [0,3]]
+         },
+      3: { symbol: "LL",
+           positions: [[0,0], [0,1], [1,0], [0,2]],
+         },
+      4: { symbol: "RL",
+           positions: [[0,1], [0,0], [1,2], [0,2]],
+         },
+      5: { symbol: "LZ",
+           positions: [[0,0], [0,1], [1,1],[1,2]],
+         },
+      6: { symbol: "RZ",
+           positions: [[0,1], [0,2], [1,1], [1,0]]
+         },
+      7: { symbol: "T",
+           positions: [[0,0], [0,2], [1,1], [0,1]]
+         },
+    };
+  }
+
+  resetGrid() {
+    this.grid = [[null, null, null, null],[null, null, null, null]];
+  }
+
+  setPiece() {
+    const nextPieceInfo = this.pieces[this.nextPiece];
+    nextPieceInfo.positions.forEach((position) => {
+      this.grid[position[0]][position[1]] = nextPieceInfo.symbol;
+    });
+  }
+
+  update() {
+        // debugger
+    this.resetGrid();
+    this.setPiece();
+  }
+}
+
+module.exports = NextPieceBoard;
 
 
 /***/ })
