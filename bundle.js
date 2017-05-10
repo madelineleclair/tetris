@@ -598,7 +598,7 @@ class Display {
         return "Orange";
       }
       case("LL"): {
-        return "Purple";
+        return "Pink";
       }
       case("RL"): {
         return "Red";
@@ -610,7 +610,7 @@ class Display {
         return "Yellow";
       }
       case("T"): {
-        return "Pink";
+        return "Purple";
       }
       default: {
         return "Black";
