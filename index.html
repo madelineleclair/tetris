@@ -12,9 +12,11 @@
   <body>
     <h1>Tetris</h1>
     <div class="game-container">
-      <canvas id="canvas" class="stage" width="400px" height="450px"></canvas>
-      <div>
-        <canvas id="next-piece-canvas" width="100px" height="75px"></canvas>
+      <canvas id="canvas" class="board" width="400px" height="450px"></canvas>
+      <div class="side-bar-container">
+        <div class="next-piece-container">
+          <canvas id="next-piece-canvas" width="100px" height="50px"></canvas>
+        </div>
         <div class="start-button-container button-container">
           <button id="start-button">Start</button>
         </div>

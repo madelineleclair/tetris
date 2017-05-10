@@ -15,6 +15,8 @@ body {
   display: flex;
   flex-direction: column;
   align-content: center;
+  background-image: url("../images/tetris_background.jpg");
+  /*background-color: #87CEFA;*/
 }
 
 .stage {
@@ -25,6 +27,7 @@ h1 {
   text-align: center;
   font-size: 50px;
   margin: 40px 0 25px 0;
+  color: white;
 }
 
 .game-container {
@@ -32,24 +35,43 @@ h1 {
   justify-content: center;
 }
 
+.board {
+  border: 2px solid grey;
+}
+
+.side-bar-container {
+  margin-left: 10px;
+}
+
 .button-container {
     width: 130px;
-    /*background: red;*/
     height: 65px;
     border: 2px solid grey;
     border-bottom: none;
-    margin-left: 10px;
     display: flex;
     justify-content: center;
 }
 
+.next-piece-container {
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  border: 2px solid grey;
+}
+
 .button-container:last-of-type {
   border-bottom: 2px solid grey;
+  margin-top: 5px;
 }
 
 .game-container button {
   width: 100%;
   text-align: center;
+  color: white;
+  background: #A9A9A9;
 }
 
 .game-container button:hover {

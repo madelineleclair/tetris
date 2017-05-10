@@ -389,7 +389,6 @@ class Game {
 
   generateRandomNumber() {
     return Math.floor(Math.random() * (7 - 1 + 1)) + 1;
-    // return 0;
   }
 
   getPiece() {
@@ -402,7 +401,6 @@ class Game {
       6: new RightZPiece(),
       7: new TPiece(),
     };
-    // debugger
     const key = this.nextPieceBoard.nextPiece || this.generateRandomNumber();
     return pieces[key];
   }
@@ -440,7 +438,6 @@ class Game {
       this.board.removePiece(space);
     });
     this.boardStage.update();
-    // this.display.displayGrid("boardStage");
   }
 
   setAutoDrop() {
@@ -474,14 +471,11 @@ class Game {
   }
 
   downLogic() {
-    // debugger
     if (this.board.validDownMove(this.currentPiece.currentPositions)) {
       this.removePiece();
       this.currentPiece.moveDown();
       this.placePiece();
       this.renderPiece();
-      // this.nextPiece = this.generateRandomNumber();
-      // this.nextPieceBoard.update();
     } else {
       this.currentPiece = null;
       if (this.board.checkForFullRows()) {
@@ -537,10 +531,7 @@ class Display {
   }
 
   displayGrid(generationType) {
-    // debugger
     const board = generationType === "boardStage" ? this.board : this.nextPieceBoard;
-    // const numberRows = this.board.numberRows;
-    // const rowLength = this.board.rowLength;
     const numberRows = board.numberRows;
     const rowLength = board.rowLength;
     let yPosition = 0;
@@ -551,7 +542,6 @@ class Display {
   }
 
   displayRow(rowNumber, rowLength, yPosition, generationType) {
-    // debugger
     const stage = generationType === "boardStage" ? this.boardStage : this.nextPieceStage;
     let xPosition = 0;
     for (let spaceNumber = 0; spaceNumber < rowLength; spaceNumber++) {
@@ -588,7 +578,6 @@ class Display {
   }
 
   getColor(position, generationType) {
-    // debugger
     const board = generationType === "boardStage" ? this.board : this.nextPieceBoard;
     const row = position[0];
     const space = position[1];
@@ -845,13 +834,13 @@ module.exports = TPiece;
 
 class NextPieceBoard {
   constructor() {
-    this.grid = [[null, null, null, null],[null, null, null, null]];
+    this.grid = [[null, null, null, null], [null, null, null, null]];
     this.numberRows = this.grid.length;
     this.rowLength = this.grid[0].length;
     this.nextPiece = null;
     this.pieces = {
       1: { symbol: "B",
-           positions: [[0, 0], [0,1], [1,0], [1,1]]
+           positions: [[0, 1], [0,2], [1,1], [1,2]]
          },
       2: { symbol: "S",
            positions: [[0,0], [0,1], [0,2], [0,3]]
@@ -886,7 +875,6 @@ class NextPieceBoard {
   }
 
   update() {
-        // debugger
     this.resetGrid();
     this.setPiece();
   }
