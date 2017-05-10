@@ -67,6 +67,15 @@ h1 {
   border: 2px solid grey;
 }
 
+.score-container {
+  background: black;
+  margin-bottom: 5px;
+  border: 2px solid grey;
+  padding-left: 5px;
+  padding-bottom: 2px;
+  height: 40px;
+}
+
 .button-container:last-of-type {
   border-bottom: 2px solid grey;
   margin-top: 5px;
