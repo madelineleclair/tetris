@@ -303,8 +303,8 @@ const TPiece = __webpack_require__(11);
 class Game {
   constructor() {
     this.board = new Board ();
-    this.stage = new createjs.Stage("canvas");
-    this.display = new Display (this.board, this.stage);
+    this.board_stage = new createjs.Stage("canvas");
+    this.display = new Display (this.board, this.board_stage);
     this.pause = false;
     this.keyPressCallBack = (e) => { this.keyPressCheck(e); };
     this.continueGame = true;
@@ -413,7 +413,7 @@ class Game {
       this.display.removePiece(space);
       this.board.removePiece(space);
     });
-    this.stage.update();
+    this.board_stage.update();
   }
 
   setAutoDrop() {
@@ -439,7 +439,7 @@ class Game {
     document.removeEventListener("keydown", this.keyPressCallBack);
     this.currentPiece = null;
     this.board.grid = this.board.generateGrid();
-    this.stage.removeAllChildren();
+    this.board_stage.removeAllChildren();
     this.display.displayGrid();
   }
 
@@ -467,7 +467,7 @@ class Game {
   }
 
   renderBoard() {
-    this.stage.removeAllChildren();
+    this.board_stage.removeAllChildren();
     this.display.displayGrid();
   }
 
@@ -475,7 +475,7 @@ class Game {
     this.currentPiece.currentPositions.forEach((space) => {
       this.display.displayPiece(space);
     });
-    this.stage.update();
+    this.board_stage.update();
   }
 }
 
