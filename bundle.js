@@ -68,8 +68,9 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 class Piece {
 
   constructor(options) {
@@ -119,13 +120,14 @@ class Piece {
 
 }
 
-module.exports = Piece;
+/* harmony default export */ __webpack_exports__["a"] = (Piece);
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 class Board {
   constructor() {
     this.numberRows = 18;
@@ -283,31 +285,43 @@ validRightMove(currentPositions) {
 
 }
 
-module.exports = Board;
+/* harmony default export */ __webpack_exports__["a"] = (Board);
 
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-const Display = __webpack_require__(3);
-const Board = __webpack_require__(1);
-const NextPieceBoard = __webpack_require__(12);
-const StaticPieces = __webpack_require__(10);
-const LinePiece = __webpack_require__(7);
-const LeftLPiece = __webpack_require__(5);
-const RightLPiece = __webpack_require__(8);
-const LeftZPiece = __webpack_require__(6);
-const RightZPiece = __webpack_require__(9);
-const TPiece = __webpack_require__(11);
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__display__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__board__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__next_piece_board__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pieces_static_pieces__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pieces_line_piece__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pieces_left_l_piece__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pieces_right_l_piece__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pieces_left_z_piece__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pieces_right_z_piece__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pieces_t_piece__ = __webpack_require__(12);
+
+
+
+
+
+
+
+
+
+
 
 class Game {
   constructor() {
-    this.board = new Board ();
-    this.nextPieceBoard = new NextPieceBoard ();
+    this.board = new __WEBPACK_IMPORTED_MODULE_1__board__["a" /* default */] ();
+    this.nextPieceBoard = new __WEBPACK_IMPORTED_MODULE_2__next_piece_board__["a" /* default */] ();
     this.boardStage = new createjs.Stage("canvas");
     this.nextPieceStage = new createjs.Stage("next-piece-canvas");
-    this.display = new Display (this.board, this.boardStage, this.nextPieceBoard, this.nextPieceStage);
+    this.display = new __WEBPACK_IMPORTED_MODULE_0__display__["a" /* default */] (this.board, this.boardStage, this.nextPieceBoard, this.nextPieceStage);
+    this.dropSpeed = 700;
     this.pause = false;
     this.keyPressCallBack = (e) => { this.keyPressCheck(e); };
     this.continueGame = true;
@@ -376,9 +390,8 @@ class Game {
       }
       case(40): {
         if (this.continueGame) {
-          clearInterval(this.autoDropId);
           this.downLogic();
-          this.setAutoDrop();
+          // this.setAutoDrop();
         }
           return;
       }
@@ -393,40 +406,23 @@ class Game {
 
   getPiece() {
     const pieces = {
-      1: new StaticPieces(),
-      2: new LinePiece(),
-      3: new LeftLPiece(),
-      4: new RightLPiece(),
-      5: new LeftZPiece(),
-      6: new RightZPiece(),
-      7: new TPiece(),
+      1: new __WEBPACK_IMPORTED_MODULE_3__pieces_static_pieces__["a" /* default */](),
+      2: new __WEBPACK_IMPORTED_MODULE_4__pieces_line_piece__["a" /* default */](),
+      3: new __WEBPACK_IMPORTED_MODULE_5__pieces_left_l_piece__["a" /* default */](),
+      4: new __WEBPACK_IMPORTED_MODULE_6__pieces_right_l_piece__["a" /* default */](),
+      5: new __WEBPACK_IMPORTED_MODULE_7__pieces_left_z_piece__["a" /* default */](),
+      6: new __WEBPACK_IMPORTED_MODULE_8__pieces_right_z_piece__["a" /* default */](),
+      7: new __WEBPACK_IMPORTED_MODULE_9__pieces_t_piece__["a" /* default */](),
     };
     const key = this.nextPieceBoard.nextPiece || this.generateRandomNumber();
     return pieces[key];
   }
-
-
-  // getPiece() {
-  //   const pieces = {
-  //     0: new StaticPieces(),
-  //     1: new LinePiece(),
-  //     2: new LeftLPiece(),
-  //     3: new RightLPiece(),
-  //     4: new LeftZPiece(),
-  //     5: new RightZPiece(),
-  //     6: new TPiece(),
-  //   };
-  //   debugger
-  //   const key = this.nextPieceBoard.nextPiece || this.generateRandomNumber();
-  //   return pieces[key];
-  // }
 
   newCurrentPiece() {
     this.currentPiece = this.getPiece();
   }
 
   placePiece() {
-    // this.currentPiece = this.currentPiece || this.getPiece();
     this.currentPiece.currentPositions.forEach((space) => {
       this.board.placePiece(space, this.currentPiece.symbol);
     });
@@ -444,7 +440,14 @@ class Game {
     if (this.continueGame) {
       this.autoDropId = setInterval(() => {
           this.downLogic();
-      }, 400);
+      }, this.dropSpeed);
+    }
+  }
+
+  AutoDropSpeed() {
+    clearInterval(this.autoDropId);
+    if (this.dropSpeed >= 100) {
+      this.dropSpeed -= 10;
     }
   }
 
@@ -468,9 +471,11 @@ class Game {
     this.nextPieceBoard.resetGrid();
     this.nextPieceStage.removeAllChildren();
     this.display.displayGrid("nextPieceStage");
+    this.dropSpeed = 700;
   }
 
   downLogic() {
+    clearInterval(this.autoDropId);
     if (this.board.validDownMove(this.currentPiece.currentPositions)) {
       this.removePiece();
       this.currentPiece.moveDown();
@@ -479,6 +484,7 @@ class Game {
     } else {
       this.currentPiece = null;
       if (this.board.checkForFullRows()) {
+        this.AutoDropSpeed();
         this.renderBoard();
       }
 
@@ -497,6 +503,7 @@ class Game {
         this.renderPiece();
       }
     }
+    this.setAutoDrop();
   }
 
   renderBoard() {
@@ -512,14 +519,16 @@ class Game {
   }
 }
 
-module.exports = Game;
+/* harmony default export */ __webpack_exports__["a"] = (Game);
 
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-const Board = __webpack_require__(1);
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board__ = __webpack_require__(1);
+
 
 class Display {
   constructor(board, boardStage, nextPieceBoard, nextPieceStage) {
@@ -610,228 +619,32 @@ class Display {
   }
 }
 
-module.exports = Display;
+/* harmony default export */ __webpack_exports__["a"] = (Display);
 
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(2);
 // this file will import the game module and begin the entry.
 // tick will be used to make pieces move down probably
 
 
-const Game = __webpack_require__(2);
-
 document.addEventListener("DOMContentLoaded", () => {
-  const game = new Game ();
-  // game.startGame();
+  const game = new __WEBPACK_IMPORTED_MODULE_0__game__["a" /* default */] ();
+
   game.pageLoadActions();
 });
-// document.addEventListener("DOMContentLoaded", () => {
-//   const stage = new createjs.Stage("canvas");
-//   const board = new Board ();
-//   var length = 0;
-//
-//   board.grid.forEach((row, index) => {
-//     var rectangle = new createjs.Shape();
-//     if (index % 2 === 0) {
-//       rectangle.graphics.beginFill("Black").drawRect(0, 0, 25, 25);
-//     } else {
-//       rectangle.graphics.beginFill("Blue").drawRect(0, 0, 25, 25);
-//     }
-//     rectangle.x = length;
-//     stage.addChild(rectangle);
-//     stage.update();
-//     length += 25;
-//   });
-// });
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   const stage =  new createjs.Stage("canvas");
-//   var rectangle = new createjs.Shape();
-//   rectangle.graphics.beginFill("Black").drawRect(0, 0, 400, 500);
-//   rectangle.x = 300;
-//   rectangle.y = 100;
-//   stage.addChild(rectangle);
-//   stage.update();
-// });
 
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-const Piece = __webpack_require__(0);
-
-class LeftLPiece extends Piece {
-  constructor() {
-    super({
-      symbol: "LL",
-      defaultPosition: [[0,6], [0,7], [1,6], [0,8]],
-    });
-  }
-}
-
-module.exports = LeftLPiece;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Piece = __webpack_require__(0);
-
-class LeftZPiece extends Piece {
-  constructor() {
-    super({
-      symbol: "LZ",
-      defaultPosition: [[0,6], [0,7], [1,7],[1,8]],
-    });
-  }
-
-}
-
-module.exports = LeftZPiece;
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Piece = __webpack_require__(0);
-
-class LinePiece extends Piece {
-  constructor() {
-    super({symbol: "S",
-    defaultPosition: [[0,6], [0,7], [0,8], [0,9]],
-    });
-  }
-
-}
-
-module.exports = LinePiece;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Piece = __webpack_require__(0);
-
-class RightLPiece extends Piece {
-  constructor() {
-    super({
-      symbol: "RL",
-      defaultPosition: [[0,7], [0,6], [1,8], [0,8]],
-    });
-  }
-}
-
-module.exports = RightLPiece;
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Piece = __webpack_require__(0);
-
-class RightZPiece extends Piece {
-  constructor() {
-    super({
-      symbol: "RZ",
-      defaultPosition: [[0,7], [0,8], [1,7], [1,6]],
-    });
-  }
-}
-
-module.exports = RightZPiece;
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Piece = __webpack_require__(0);
-
-class StaticPieces extends Piece {
-  constructor() {
-    super({
-      symbol: "B",
-      defaultPosition: [[0, 7], [0,8], [1,7], [1,8]],
-    });
-    // this.symbol = "B";
-    // this.defaultPosition = {
-    //   top: [[0, 8], [0,9]],
-    //   middle: [],
-    //   bottom: [[1,8], [1,9]],
-    // };
-    // this.currentPositions = this.defaultPosition;
-    // this.allCurrentPositions = this.currentPositions.top.concat(this.currentPositions.middle)
-    //   .concat(this.currentPositions.bottom);
-  }
-
-  // moveDown() {
-  //   this.allCurrentPositions.forEach((space) => {
-  //     space[0] ++;
-  //   });
-  // }
-  //
-  // moveLeft() {
-  //   this.allCurrentPositions.forEach((space) => {
-  //     space[1] -= 1;
-  //   });
-  // }
-  //
-  // moveRight() {
-  //   this.allCurrentPositions.forEach((space) => {
-  //     space[1] += 1;
-  //   });
-  // }
-  //
-  // getLeftPieces() {
-  //   return [this.currentPositions.bottom[0], this.currentPositions.top[0]];
-  // }
-  //
-  // getRightPieces() {
-  //   return [this.currentPositions.bottom[1], this.currentPositions.top[1]];
-  // }
-  //
-  // getBottomPieces() {
-  //   return this.currentPositions.bottom;
-  // }
-
-  rotatePiece() {
-
-  }
-}
-
-module.exports = StaticPieces;
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Piece = __webpack_require__(0);
-
-class TPiece extends Piece {
-  constructor() {
-    super({
-      symbol: "T",
-      defaultPosition: [[0,6], [0,8], [1,7], [0,7]],
-    });
-  }
-}
-
-module.exports = TPiece;
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
+"use strict";
 class NextPieceBoard {
   constructor() {
     this.grid = [[null, null, null, null], [null, null, null, null]];
@@ -880,7 +693,152 @@ class NextPieceBoard {
   }
 }
 
-module.exports = NextPieceBoard;
+/* harmony default export */ __webpack_exports__["a"] = (NextPieceBoard);
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__piece__ = __webpack_require__(0);
+
+
+class LeftLPiece extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */] {
+  constructor() {
+    super({
+      symbol: "LL",
+      defaultPosition: [[0,6], [0,7], [1,6], [0,8]],
+    });
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LeftLPiece);
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__piece__ = __webpack_require__(0);
+
+
+class LeftZPiece extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */] {
+  constructor() {
+    super({
+      symbol: "LZ",
+      defaultPosition: [[0,6], [0,7], [1,7],[1,8]],
+    });
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LeftZPiece);
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__piece__ = __webpack_require__(0);
+
+
+class LinePiece extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */] {
+  constructor() {
+    super({symbol: "S",
+    defaultPosition: [[0,6], [0,7], [0,8], [0,9]],
+    });
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LinePiece);
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__piece__ = __webpack_require__(0);
+
+
+class RightLPiece extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */] {
+  constructor() {
+    super({
+      symbol: "RL",
+      defaultPosition: [[0,7], [0,6], [1,8], [0,8]],
+    });
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (RightLPiece);
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__piece__ = __webpack_require__(0);
+
+
+class RightZPiece extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */] {
+  constructor() {
+    super({
+      symbol: "RZ",
+      defaultPosition: [[0,7], [0,8], [1,7], [1,6]],
+    });
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (RightZPiece);
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__piece__ = __webpack_require__(0);
+
+
+class StaticPieces extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */] {
+  constructor() {
+    super({
+      symbol: "B",
+      defaultPosition: [[0, 7], [0,8], [1,7], [1,8]],
+    });
+  }
+
+  rotatePiece() {
+
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (StaticPieces);
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__piece__ = __webpack_require__(0);
+
+
+class TPiece extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */] {
+  constructor() {
+    super({
+      symbol: "T",
+      defaultPosition: [[0,6], [0,8], [1,7], [0,7]],
+    });
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (TPiece);
 
 
 /***/ })
