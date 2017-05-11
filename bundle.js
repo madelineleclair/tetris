@@ -324,20 +324,17 @@ class Game {
     this.nextPieceStage = new createjs.Stage("next-piece-canvas");
     this.display = new __WEBPACK_IMPORTED_MODULE_0__display__["a" /* default */] (this.board, this.boardStage, this.nextPieceBoard,
       this.nextPieceStage);
-    // this.scoreBoard = new createjs.Stage("score-canvas");
-    // this.display = new Display (this.board, this.boardStage, this.nextPieceBoard,
-    //   this.nextPieceStage, this.scoreBoard);
     this.score = 0;
     this.dropSpeed = 700;
     this.pause = false;
     this.keyPressCallBack = (e) => { this.keyPressCheck(e); };
     this.continueGame = true;
+    this.scoreBoard = document.getElementById("score-container");
   }
 
   pageLoadActions() {
     this.renderBoard();
     this.display.displayGrid("nextPieceBoard");
-    // this.display.displayScoreBoard(this.score);
     const startButton = document.getElementById("start-button");
     const pauseButton = document.getElementById("pause-button");
     startButton.addEventListener("click", (e) => this.startGame());
@@ -345,8 +342,11 @@ class Game {
   }
 
   displayScore() {
-    this.scoreBoard = document.getElementById("score-container");
     this.scoreBoard.innerHTML = `<p>${this.score}</p>`;
+  }
+
+  resetScore() {
+    this.scoreBoard.innerHTML = '<p></p>';
   }
 
   startGame() {
@@ -405,7 +405,6 @@ class Game {
       case(40): {
         if (this.continueGame) {
           this.downLogic();
-          // this.setAutoDrop();
         }
           return;
       }
@@ -477,9 +476,7 @@ class Game {
 
   updateScore() {
       this.score = this.score + 1 + this.board.numberClearedRows * 10;
-      this.displayScore()
-      // this.scoreBoard.removeAllChildren();
-      // this.display.displayScoreBoard(this.score);
+      this.displayScore();
       this.board.numberClearedRows = 0;
   }
 
@@ -494,6 +491,7 @@ class Game {
     this.nextPieceStage.removeAllChildren();
     this.display.displayGrid("nextPieceStage");
     this.dropSpeed = 700;
+    this.resetScore();
   }
 
   downLogic() {
@@ -524,7 +522,10 @@ class Game {
         this.placePiece();
         this.renderPiece();
       }
-      this.updateScore();
+
+      if (this.continueGame) {
+        this.updateScore();
+      }
     }
     this.setAutoDrop();
   }
@@ -555,12 +556,10 @@ class Game {
 
 class Display {
   constructor(board, boardStage, nextPieceBoard, nextPieceStage) {
-  // constructor(board, boardStage, nextPieceBoard, nextPieceStage, scoreBoard) {
     this.board = board;
     this.boardStage = boardStage;
     this.nextPieceBoard = nextPieceBoard;
     this.nextPieceStage = nextPieceStage;
-    // this.scoreBoard = scoreBoard;
     this.squareSize = 25;
   }
 
@@ -601,14 +600,6 @@ class Display {
     rectangle.y = position[0] * this.squareSize;
     this.boardStage.addChild(rectangle);
   }
-
-  // displayScoreBoard(score) {
-  //   let text = new createjs.Text(`${score}`, "40px Arial", "#ff7700");
-  //   // text.x = 100 - text.getBounds()/2
-  //   // text.y = 40 - text.getBounds()/2
-  //   this.scoreBoard.addChild(text);
-  //   this.scoreBoard.update();
-  // }
 
 // the x position is the index inside the inner array and the y positioni is the row number
   removePiece(position) {
@@ -669,7 +660,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 document.addEventListener("DOMContentLoaded", () => {
   // debugger
   const game = new __WEBPACK_IMPORTED_MODULE_0__game__["a" /* default */] ();
-  // document.getElementById("score-container").innerHTML = "";
   game.pageLoadActions();
 });
 
