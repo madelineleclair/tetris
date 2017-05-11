@@ -322,9 +322,11 @@ class Game {
     this.nextPieceBoard = new __WEBPACK_IMPORTED_MODULE_2__next_piece_board__["a" /* default */] ();
     this.boardStage = new createjs.Stage("canvas");
     this.nextPieceStage = new createjs.Stage("next-piece-canvas");
-    this.scoreBoard = new createjs.Stage("score-canvas");
     this.display = new __WEBPACK_IMPORTED_MODULE_0__display__["a" /* default */] (this.board, this.boardStage, this.nextPieceBoard,
-      this.nextPieceStage, this.scoreBoard);
+      this.nextPieceStage);
+    // this.scoreBoard = new createjs.Stage("score-canvas");
+    // this.display = new Display (this.board, this.boardStage, this.nextPieceBoard,
+    //   this.nextPieceStage, this.scoreBoard);
     this.score = 0;
     this.dropSpeed = 700;
     this.pause = false;
@@ -335,11 +337,16 @@ class Game {
   pageLoadActions() {
     this.renderBoard();
     this.display.displayGrid("nextPieceBoard");
-    this.display.displayScoreBoard(this.score);
+    // this.display.displayScoreBoard(this.score);
     const startButton = document.getElementById("start-button");
     const pauseButton = document.getElementById("pause-button");
     startButton.addEventListener("click", (e) => this.startGame());
     pauseButton.addEventListener("click", e => this.pauseGame());
+  }
+
+  displayScore() {
+    this.scoreBoard = document.getElementById("score-container");
+    this.scoreBoard.innerHTML = `<p>${this.score}</p>`;
   }
 
   startGame() {
@@ -353,6 +360,7 @@ class Game {
     this.nextPieceBoard.setPiece();
     this.nextPieceStage.update();
     this.display.displayGrid("nextPieceStage");
+    this.displayScore();
   }
 
   pauseGame() {
@@ -469,8 +477,9 @@ class Game {
 
   updateScore() {
       this.score = this.score + 1 + this.board.numberClearedRows * 10;
-      this.scoreBoard.removeAllChildren();
-      this.display.displayScoreBoard(this.score);
+      this.displayScore()
+      // this.scoreBoard.removeAllChildren();
+      // this.display.displayScoreBoard(this.score);
       this.board.numberClearedRows = 0;
   }
 
@@ -545,12 +554,13 @@ class Game {
 
 
 class Display {
-  constructor(board, boardStage, nextPieceBoard, nextPieceStage, scoreBoard) {
+  constructor(board, boardStage, nextPieceBoard, nextPieceStage) {
+  // constructor(board, boardStage, nextPieceBoard, nextPieceStage, scoreBoard) {
     this.board = board;
     this.boardStage = boardStage;
     this.nextPieceBoard = nextPieceBoard;
     this.nextPieceStage = nextPieceStage;
-    this.scoreBoard = scoreBoard;
+    // this.scoreBoard = scoreBoard;
     this.squareSize = 25;
   }
 
@@ -592,13 +602,13 @@ class Display {
     this.boardStage.addChild(rectangle);
   }
 
-  displayScoreBoard(score) {
-    let text = new createjs.Text(`${score}`, "40px Arial", "#ff7700");
-    // text.x = 100 - text.getBounds()/2
-    // text.y = 40 - text.getBounds()/2
-    this.scoreBoard.addChild(text);
-    this.scoreBoard.update();
-  }
+  // displayScoreBoard(score) {
+  //   let text = new createjs.Text(`${score}`, "40px Arial", "#ff7700");
+  //   // text.x = 100 - text.getBounds()/2
+  //   // text.y = 40 - text.getBounds()/2
+  //   this.scoreBoard.addChild(text);
+  //   this.scoreBoard.update();
+  // }
 
 // the x position is the index inside the inner array and the y positioni is the row number
   removePiece(position) {
@@ -657,8 +667,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 document.addEventListener("DOMContentLoaded", () => {
+  // debugger
   const game = new __WEBPACK_IMPORTED_MODULE_0__game__["a" /* default */] ();
-
+  // document.getElementById("score-container").innerHTML = "";
   game.pageLoadActions();
 });
 
