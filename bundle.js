@@ -328,16 +328,17 @@ class Game {
     this.dropSpeed = 700;
     this.pause = false;
     this.keyPressCallBack = (e) => { this.keyPressCheck(e); };
+    this.startButtonCallBack = (e) => { this.startGame(e); };
     this.continueGame = true;
     this.scoreBoard = document.getElementById("score-container");
+    this.startButton = document.getElementById("start-button");
   }
 
   pageLoadActions() {
     this.renderBoard();
     this.display.displayGrid("nextPieceBoard");
-    const startButton = document.getElementById("start-button");
     const pauseButton = document.getElementById("pause-button");
-    startButton.addEventListener("click", (e) => this.startGame());
+    this.startButton.addEventListener("click", this.startButtonCallBack);
     pauseButton.addEventListener("click", e => this.pauseGame());
   }
 
@@ -347,6 +348,7 @@ class Game {
 
   resetScore() {
     this.scoreBoard.innerHTML = '<p></p>';
+    this.score = 0;
   }
 
   startGame() {
@@ -361,6 +363,7 @@ class Game {
     this.nextPieceStage.update();
     this.display.displayGrid("nextPieceStage");
     this.displayScore();
+    this.startButton.removeEventListener("click", this.startButtonCallBack);
   }
 
   pauseGame() {
@@ -492,6 +495,7 @@ class Game {
     this.display.displayGrid("nextPieceStage");
     this.dropSpeed = 700;
     this.resetScore();
+    this.startButton.addEventListener("click", this.startButtonCallBack);
   }
 
   downLogic() {
