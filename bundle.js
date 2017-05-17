@@ -594,24 +594,25 @@ class Display {
     stage.update();
   }
 
-// the x position is the index inside the inner array and the y positioni is the row number
-  displayPiece(position) {
-    var color = this.getColor([position[0], position[1]], "boardStage");
-    var rectangle = new createjs.Shape();
-    rectangle.graphics.beginStroke('#000');
-    rectangle.graphics.beginFill(color).drawRect(0, 0, this.squareSize, this.squareSize);
-    rectangle.x = position[1] * this.squareSize;
-    rectangle.y = position[0] * this.squareSize;
-    this.boardStage.addChild(rectangle);
+  getChild(position) {
+    // debugger
+    const stageIndex = (16 * position[0] + position[1]);
+    return this.boardStage.children[stageIndex];
   }
 
 // the x position is the index inside the inner array and the y positioni is the row number
+  displayPiece(position) {
+    var color = this.getColor([position[0], position[1]], "boardStage");
+    var child = this.getChild(position);
+    child.graphics.clear().beginStroke('#000');
+    child.graphics.beginFill(color).drawRect(0, 0, this.squareSize, this.squareSize);
+  }
+
+
+// the x position is the index inside the inner array and the y positioni is the row number
   removePiece(position) {
-    var rectangle = new createjs.Shape();
-    rectangle.graphics.beginFill("Black").drawRect(0, 0, this.squareSize, this.squareSize);
-    rectangle.x = position[1] * this.squareSize;
-    rectangle.y = position[0] * this.squareSize;
-    this.boardStage.addChild(rectangle);
+    var child = this.getChild(position);
+    child.graphics.clear().beginFill("Black").drawRect(0, 0, this.squareSize, this.squareSize);
   }
 
   getColor(position, generationType) {
