@@ -55,15 +55,6 @@ h2 {
   margin-left: 10px;
 }
 
-.button-container {
-    width: 130px;
-    height: 65px;
-    border: 2px solid grey;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 5px;
-}
-
 .next-piece-container {
   background: black;
   display: flex;
@@ -99,11 +90,6 @@ h2 {
 
 .control-container i {
   margin-left: 5px;
-}
-
-.button-container:last-of-type {
-  border-bottom: 2px solid grey;
-  margin-top: 5px;
 }
 
 .game-container button {
