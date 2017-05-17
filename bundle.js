@@ -327,9 +327,8 @@ class Game {
     this.score = 0;
     this.dropSpeed = 700;
     this.pause = false;
-    this.keyPressCallBack = (e) => { this.keyPressCheck(e); };
-    this.startButtonCallBack = (e) => { this.startGame(e); };
-    this.continueGame = true;
+    this.keyPressCallBack = (e) => { this.pieceMovement(e); };
+    this.continueGame = false;
     this.scoreBoard = document.getElementById("score-container");
     this.startButton = document.getElementById("start-button");
   }
@@ -337,9 +336,7 @@ class Game {
   pageLoadActions() {
     this.displayStartScreen();
     this.display.displayGrid("nextPieceBoard");
-    const pauseButton = document.getElementById("pause-button");
-    this.startButton.addEventListener("click", this.startButtonCallBack);
-    pauseButton.addEventListener("click", e => this.pauseGame());
+    document.addEventListener('keydown', (e) => this.gameKeys(e));
   }
 
   displayStartScreen() {
@@ -353,7 +350,7 @@ class Game {
   displayGameOverScreen() {
     this.display.displayGameOverScreen();
   }
-  
+
   resetScore() {
     this.scoreBoard.innerHTML = '<p></p>';
     this.score = 0;
@@ -373,7 +370,6 @@ class Game {
     this.nextPieceStage.update();
     this.display.displayGrid("nextPieceStage");
     this.displayScore();
-    this.startButton.removeEventListener("click", this.startButtonCallBack);
   }
 
   pauseGame() {
@@ -392,7 +388,7 @@ class Game {
     document.addEventListener("keydown", this.keyPressCallBack);
   }
 
-  keyPressCheck(e) {
+  pieceMovement(e) {
     switch(e.keyCode) {
       case(37): {
         if (this.board.validLeftMove(this.currentPiece.currentPositions)) {
@@ -421,13 +417,31 @@ class Game {
         }
           return;
       }
-      case(81): {
-        this.gameOver()
-        return;
-      }
     }
     this.placePiece();
     this.renderPiece();
+  }
+
+  gameKeys(e) {
+    switch(e.keyCode) {
+      case(80): {
+        if (this.continueGame) {
+          this.pauseGame();
+        }
+        break;
+      }
+      case(81): {
+        this.continueGame = false;
+        this.gameOver();
+        return;
+      }
+      case(13): {
+        if (!this.continueGame) {
+          this.startGame();
+        }
+        break;
+      }
+    }
   }
 
   generateRandomNumber() {
@@ -504,7 +518,6 @@ class Game {
     this.board.grid = this.board.generateGrid();
     this.boardStage.removeAllChildren();
     this.displayGameOverScreen();
-    // this.display.displayGrid("boardStage");
     this.nextPieceBoard.resetGrid();
     this.nextPieceStage.removeAllChildren();
     this.display.displayGrid("nextPieceStage");
@@ -703,14 +716,9 @@ class Display {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(2);
-// this file will import the game module and begin the entry.
-// tick will be used to make pieces move down probably
 
-// import StartScreen from 'start_screen.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-    // const startScreen = new StartScreen ();
-
   const game = new __WEBPACK_IMPORTED_MODULE_0__game__["a" /* default */] ();
   game.pageLoadActions();
 });
