@@ -411,6 +411,10 @@ class Game {
         }
           return;
       }
+      case(81): {
+        this.gameOver()
+        return;
+      }
     }
     this.placePiece();
     this.renderPiece();
