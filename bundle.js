@@ -335,23 +335,33 @@ class Game {
   }
 
   pageLoadActions() {
-    this.renderBoard();
+    this.displayStartScreen();
     this.display.displayGrid("nextPieceBoard");
     const pauseButton = document.getElementById("pause-button");
     this.startButton.addEventListener("click", this.startButtonCallBack);
     pauseButton.addEventListener("click", e => this.pauseGame());
   }
 
+  displayStartScreen() {
+    this.display.displayStartScreen();
+  }
+
   displayScore() {
     this.scoreBoard.innerHTML = `<p>${this.score}</p>`;
   }
 
+  displayGameOverScreen() {
+    this.display.displayGameOverScreen();
+  }
+  
   resetScore() {
     this.scoreBoard.innerHTML = '<p></p>';
     this.score = 0;
   }
 
   startGame() {
+    this.boardStage.removeAllChildren();
+    this.renderBoard();
     this.continueGame = true;
     this.UserKeyboardInteraction();
     this.newCurrentPiece();
@@ -493,7 +503,8 @@ class Game {
     this.currentPiece = null;
     this.board.grid = this.board.generateGrid();
     this.boardStage.removeAllChildren();
-    this.display.displayGrid("boardStage");
+    this.displayGameOverScreen();
+    // this.display.displayGrid("boardStage");
     this.nextPieceBoard.resetGrid();
     this.nextPieceStage.removeAllChildren();
     this.display.displayGrid("nextPieceStage");
@@ -569,6 +580,36 @@ class Display {
     this.nextPieceBoard = nextPieceBoard;
     this.nextPieceStage = nextPieceStage;
     this.squareSize = 25;
+  }
+
+  displayStartScreen(displayType) {
+    var rectangle = new createjs.Shape();
+    const numberRows = this.board.numberRows;
+    const rowLength = this.board.rowLength;
+    rectangle.graphics.beginFill('Black').drawRect(0, 0, rowLength * this.squareSize, numberRows * this.squareSize);
+    this.boardStage.addChild(rectangle);
+    const text = new createjs.Text("Press Enter to Begin", "20px Arial", "#ffffff");
+    text.Align = 'center';
+    const bounds = text.getBounds();
+    text.x = 110;
+    text.y = 200;
+    this.boardStage.addChild(text);
+    this.boardStage.update();
+  }
+
+  displayGameOverScreen(displayType) {
+    var rectangle = new createjs.Shape();
+    const numberRows = this.board.numberRows;
+    const rowLength = this.board.rowLength;
+    rectangle.graphics.beginFill('Black').drawRect(0, 0, rowLength * this.squareSize, numberRows * this.squareSize);
+    this.boardStage.addChild(rectangle);
+    const text = new createjs.Text("Press Enter to Play Again", "20px Arial", "#ffffff");
+    text.Align = 'center';
+    const bounds = text.getBounds();
+    text.x = 85;
+    text.y = 200;
+    this.boardStage.addChild(text);
+    this.boardStage.update();
   }
 
   displayGrid(generationType) {
@@ -665,9 +706,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // this file will import the game module and begin the entry.
 // tick will be used to make pieces move down probably
 
+// import StartScreen from 'start_screen.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-  // debugger
+    // const startScreen = new StartScreen ();
+
   const game = new __WEBPACK_IMPORTED_MODULE_0__game__["a" /* default */] ();
   game.pageLoadActions();
 });
