@@ -601,7 +601,7 @@ class Display {
     const rowLength = this.board.rowLength;
     rectangle.graphics.beginFill('Black').drawRect(0, 0, rowLength * this.squareSize, numberRows * this.squareSize);
     this.boardStage.addChild(rectangle);
-    const text = new createjs.Text("Press Enter to Begin", "20px FyodorBold", "#ffffff");
+    const text = new createjs.Text("Press Enter to Begin", "22px FyodorBold", "#ffffff");
     text.Align = 'center';
     const bounds = text.getBounds();
     text.x = 110;
@@ -616,7 +616,7 @@ class Display {
     const rowLength = this.board.rowLength;
     rectangle.graphics.beginFill('Black').drawRect(0, 0, rowLength * this.squareSize, numberRows * this.squareSize);
     this.boardStage.addChild(rectangle);
-    const text = new createjs.Text("Press Enter to Play Again", "20px FyodorBold", "#ffffff");
+    const text = new createjs.Text("Press Enter to Play Again", "22px FyodorBold", "#ffffff");
     text.Align = 'center';
     const bounds = text.getBounds();
     text.x = 85;
