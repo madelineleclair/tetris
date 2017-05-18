@@ -14,7 +14,16 @@
     <div class="game">
       <h1>Tetris</h1>
       <div class="game-container">
-        <canvas id="canvas" class="board" width="400px" height="450px"></canvas>
+        <div class="game-board-container">
+          <div id="start-screen" class="start-screen">
+            <h2>Press Enter to Begin</h2>
+          </div>
+          <div id="game-over-screen" class="game-over-screen hide">
+            <h2>Game Over</h2>
+            <h2>Press Enter to Play Again</h2>
+          </div>
+          <canvas id="canvas" class="board" width="400px" height="450px"></canvas>
+        </div>
         <div class="side-bar-container">
           <div class="next-piece-container">
             <canvas id="next-piece-canvas" width="100px" height="50px"></canvas>

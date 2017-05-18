@@ -1,5 +1,5 @@
 html, body, canvas, h1, button, a, footer, div, h2 {
-  font-family: 'Monaco';
+  font-family: 'FyodorBold';
   margin: 0;
   padding: 0;
   border: 0;
@@ -29,7 +29,8 @@ h1 {
   color: white;
 }
 
-h2 {
+
+.control-container h2 {
   text-align: center;
   text-decoration: underline;
   margin-bottom: 10px;
@@ -46,6 +47,32 @@ h2 {
   justify-content: center;
   margin-bottom: 20px;
   border-radius: 2px;
+}
+
+.start-screen, .game-over-screen {
+  background: black;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid grey;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.game-over-screen {
+  display: flex;
+  flex-direction: column;
+}
+
+.hide {
+  display: none;
+}
+
+.game-board-container {
+  position: relative;
 }
 
 .board {

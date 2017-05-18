@@ -334,13 +334,24 @@ class Game {
   }
 
   pageLoadActions() {
-    this.displayStartScreen();
     this.display.displayGrid("nextPieceBoard");
     document.addEventListener('keydown', (e) => this.gameKeys(e));
   }
 
-  displayStartScreen() {
-    this.display.displayStartScreen();
+  hideScreen() {
+    const endScreen = document.getElementById("game-over-screen");
+
+    if(endScreen.classList.length === 1) {
+      endScreen.classList.add("hide");
+    } else {
+      const startScreen = document.getElementById("start-screen");
+      startScreen.classList.add("hide");
+    }
+  }
+
+  hideGameOverScreen() {
+    const gameOver = document.getElementById("game-over-screen");
+    gameOver.classList.add("hide");
   }
 
   displayScore() {
@@ -348,7 +359,8 @@ class Game {
   }
 
   displayGameOverScreen() {
-    this.display.displayGameOverScreen();
+    const gameOver = document.getElementById("game-over-screen");
+    gameOver.classList.remove("hide");
   }
 
   resetScore() {
@@ -357,7 +369,7 @@ class Game {
   }
 
   startGame() {
-    this.boardStage.removeAllChildren();
+    this.hideScreen();
     this.renderBoard();
     this.continueGame = true;
     this.UserKeyboardInteraction();
@@ -523,7 +535,6 @@ class Game {
     this.display.displayGrid("nextPieceStage");
     this.dropSpeed = 700;
     this.resetScore();
-    this.startButton.addEventListener("click", this.startButtonCallBack);
   }
 
   downLogic() {
@@ -593,34 +604,6 @@ class Display {
     this.nextPieceBoard = nextPieceBoard;
     this.nextPieceStage = nextPieceStage;
     this.squareSize = 25;
-  }
-
-  displayStartScreen(displayType) {
-    var rectangle = new createjs.Shape();
-    const numberRows = this.board.numberRows;
-    const rowLength = this.board.rowLength;
-    rectangle.graphics.beginFill('Black').drawRect(0, 0, rowLength * this.squareSize, numberRows * this.squareSize);
-    this.boardStage.addChild(rectangle);
-    const text = new createjs.Text("Press Enter to Begin", "22px Monaco", "#ffffff");
-    text.x = 110;
-    text.y = 200;
-    this.boardStage.addChild(text);
-    this.boardStage.update();
-  }
-
-  displayGameOverScreen(displayType) {
-    var rectangle = new createjs.Shape();
-    const numberRows = this.board.numberRows;
-    const rowLength = this.board.rowLength;
-    rectangle.graphics.beginFill('Black').drawRect(0, 0, rowLength * this.squareSize, numberRows * this.squareSize);
-    this.boardStage.addChild(rectangle);
-    const text = new createjs.Text("Press Enter to Play Again", "22px Monaco", "#ffffff");
-    text.Align = 'center';
-    const bounds = text.getBounds();
-    text.x = 85;
-    text.y = 200;
-    this.boardStage.addChild(text);
-    this.boardStage.update();
   }
 
   displayGrid(generationType) {
