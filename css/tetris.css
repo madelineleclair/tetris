@@ -45,10 +45,12 @@ h2 {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  border-radius: 2px;
 }
 
 .board {
   border: 2px solid grey;
+  border-radius: 2px;
 }
 
 .side-bar-container {
@@ -63,6 +65,7 @@ h2 {
   padding: 10px 0;
   margin-bottom: 5px;
   border: 2px solid grey;
+  border-radius: 2px;
 }
 
 .score-container {
@@ -74,6 +77,7 @@ h2 {
   height: 40px;
   color: white;
   text-align: center;
+  border-radius: 2px;
 }
 
 .control-container {
@@ -117,4 +121,9 @@ a {
   font-size: 20px;
   height: 20px;
   color: white;
+  background: black;
+  padding: 8px;
+  border: 2px solid grey;
+  line-height: normal;
+  border-radius: 2px;
 }
