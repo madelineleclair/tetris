@@ -385,11 +385,14 @@ class Game {
   }
 
   pauseGame() {
+    const pauseScreen = document.getElementById("pause-screen")
     if (this.pause) {
+      pauseScreen.classList.add("hide");
       this.setAutoDrop();
       this.pause = false;
       this.UserKeyboardInteraction();
-    } else {
+    } else if (!this.pause && this.continueGame === true) {
+      pauseScreen.classList.remove("hide");
       this.pause = true;
       document.removeEventListener("keydown", this.keyPressCallBack);
       clearInterval(this.autoDropId);
@@ -535,6 +538,7 @@ class Game {
     this.display.displayGrid("nextPieceStage");
     this.dropSpeed = 700;
     this.resetScore();
+    this.pauseGame();
   }
 
   downLogic() {
