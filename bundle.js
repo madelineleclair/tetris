@@ -360,6 +360,8 @@ class Game {
 
   displayGameOverScreen() {
     const gameOver = document.getElementById("game-over-screen");
+    const finalScore = document.getElementById("final-score");
+    finalScore.innerHTML= `Final Score: ${this.score}`;
     gameOver.classList.remove("hide");
   }
 
@@ -369,6 +371,7 @@ class Game {
   }
 
   startGame() {
+    this.resetScore();
     this.hideScreen();
     this.renderBoard();
     this.continueGame = true;
@@ -537,7 +540,6 @@ class Game {
     this.nextPieceStage.removeAllChildren();
     this.display.displayGrid("nextPieceStage");
     this.dropSpeed = 700;
-    this.resetScore();
     this.pauseGame();
   }
 
