@@ -904,7 +904,7 @@ class TPiece extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */] {
   constructor() {
     super({
       symbol: "T",
-      defaultPosition: [[0,6], [0,8], [1,7], [0,7]],
+      defaultPosition: [[0,6], [0,8], [0,7], [1,7]],
     });
   }
 }
