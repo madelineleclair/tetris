@@ -779,7 +779,7 @@ class LeftLPiece extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */]
   constructor() {
     super({
       symbol: "LL",
-      defaultPosition: [[0,6], [0,7], [1,6], [0,8]],
+      defaultPosition: [[0,6], [1,6], [0,7], [0,8]],
     });
   }
 }
@@ -840,7 +840,7 @@ class RightLPiece extends __WEBPACK_IMPORTED_MODULE_0__piece__["a" /* default */
   constructor() {
     super({
       symbol: "RL",
-      defaultPosition: [[0,7], [0,6], [1,8], [0,8]],
+      defaultPosition: [[0,6], [1,8], [0,7], [0,8]],
     });
   }
 }
